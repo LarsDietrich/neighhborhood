@@ -6,6 +6,8 @@
   width: 300px;
   height: 330px;
   border: 1px solid black;
+  box-shadow: 2px 2px 16px #888;
+  -webkit-transform: rotate(-1deg);
 }
 #map {
   position: absolute;
@@ -18,6 +20,7 @@
   position: relative;
   left: 15px;
   font-size: 200%;
+  font-family: 'Permanent Marker', cursive;
 }
 .credits {
   margin: 1pt 6pt;
