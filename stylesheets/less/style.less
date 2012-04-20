@@ -2,10 +2,33 @@
    Author: Richard Clark, for the Intel AppUp HTML5 screencasts
    ========================================================================== */
 
-#map {
-  height: 300px;
-  width: 300px;
+@wrapperWidth: 300px;
+@wrapperHeight: @wrapperWidth;
+@mapMargin: 15px;
+@nameHeight: 30px;
+@mapWidth: @wrapperWidth - (@mapMargin * 2);
+@mapHeight: @wrapperHeight - (@mapMargin * 2);
+
+
+#map_wrapper {
+  position: relative;
+  width: @wrapperWidth;
+  height: @wrapperHeight + @nameHeight;
   border: 1px solid black;
+}
+
+#map {
+  position: absolute;
+  top: @mapMargin + @nameHeight;
+  left: @mapMargin;
+  height: @mapWidth;
+  width: @mapHeight;
+}
+
+.city_name {
+  position: relative;
+  left: @mapMargin;
+  font-size: 200%;
 }
 
 .credits {
