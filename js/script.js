@@ -10,7 +10,32 @@ window.onload = function() {
   var zoom = 11.5
   
   map.setCenterZoom(new MM.Location(latitude, longitude), zoom)
-};
+  var canvas = document.createElement('canvas')
+  canvas.width = mapDiv.clientWidth
+  canvas.height = mapDiv.clientHeight
+  canvas.style.position = 'absolute'
+  map.parent.appendChild(canvas)
+  
+  map.addCallback('drawn', function() {
+    // place a small triangle in the center of the map
+    var context = canvas.getContext('2d')
+    var cx = canvas.width / 2
+    var cy = canvas.height / 2
+    
+    context.beginPath();
+    context.moveTo(cx, cy-5)
+    context.lineTo(cx+7, cy+7)
+    context.lineTo(cx-7, cy+7)
+    context.lineTo(cx, cy-5)
+    context.closePath()
+    context.strokeStyle = "#f00"
+    context.fillStyle = "#ff0"
+    
+    context.fill()
+    context.stroke()
+  })
+
+}
 
 
 /*
