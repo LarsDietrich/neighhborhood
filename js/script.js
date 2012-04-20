@@ -22,7 +22,7 @@ window.onload = function() {
     var cx = canvas.width / 2
     var cy = canvas.height / 2
     
-    context.beginPath();
+    context.beginPath()
     context.moveTo(cx, cy-5)
     context.lineTo(cx+7, cy+7)
     context.lineTo(cx-7, cy+7)
@@ -35,11 +35,23 @@ window.onload = function() {
     context.stroke()
   })
 
+  // Now look for our current position
+  if (navigator.geolocation) {
+    var successHandler = function(position) {
+      document.querySelector(".city_name").innerHTML = "Your location"
+      var loc = new MM.Location(position.coords.latitude, position.coords.longitude)
+      map.setCenterZoom(loc, zoom)
+    }
+    var errorHandler = function(error) {
+      console.log(error.message)
+    }
+    navigator.geolocation.getCurrentPosition(successHandler, errorHandler) 
+  }
 }
 
 
 /*
 window.onerror = function() {
-  console.log('error');
+  console.log('error')
 }
 */
