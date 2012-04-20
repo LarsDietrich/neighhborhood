@@ -9,9 +9,13 @@
 @mapWidth: @wrapperWidth - (@mapMargin * 2);
 @mapHeight: @wrapperHeight - (@mapMargin * 2);
 
+@formMargin: 15px;
+@formLeft: @wrapperWidth + @formMargin;
 
 #map_wrapper {
-  position: relative;
+  position: absolute
+  top: 0px;
+  left: 0px;
   width: @wrapperWidth;
   height: @wrapperHeight + @nameHeight;
   border: 1px solid black;
@@ -38,4 +42,15 @@
 .credits {
   margin: 1pt 6pt;
   font-size: 75%;
+}
+
+#lookup {
+	position: absolute;
+	left: @formLeft;
+	top: 0px;
+	margin: 0px @formMargin;
+}
+
+#lookup ul {
+  list-style: none;
 }

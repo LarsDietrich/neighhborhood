@@ -10,11 +10,33 @@ window.onload = function() {
   var zoom = 11.5
   
   map.setCenterZoom(new MM.Location(latitude, longitude), zoom)
-};
+  
+  var form = document.forms[0]
+  var queryElement = document.querySelector('#query')
+  
+  form.onsubmit = function() {
+    var query = queryElement.value
+    if (query) query = query.trim()
+    sendQuery(query)
+    return false
+  }
+  
+  function sendQuery(query) {
+    if (!query) return
+    $.ajax({
+      url: "http://glocal.research.yahoo.com/geo-location/rest-api/rest.php",
+      data: {query: (encodeURI(query))},
+      success: function(data, status, req) {
+        console.log(data)
+      },
+      error: function(req, status) {
+        console.log(req.statusText)
+      }
+    })
+  }   
+}
 
 
-/*
 window.onerror = function() {
   console.log('error');
 }
-*/

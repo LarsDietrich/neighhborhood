@@ -2,7 +2,9 @@
    Author: Richard Clark, for the Intel AppUp HTML5 screencasts
    ========================================================================== */
 #map_wrapper {
-  position: relative;
+  position: absolute
+  top: 0px;
+  left: 0px;
   width: 300px;
   height: 330px;
   border: 1px solid black;
@@ -25,4 +27,13 @@
 .credits {
   margin: 1pt 6pt;
   font-size: 75%;
+}
+#lookup {
+  position: absolute;
+  left: 315px;
+  top: 0px;
+  margin: 0px 15px;
+}
+#lookup ul {
+  list-style: none;
 }
