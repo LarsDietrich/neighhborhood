@@ -24,7 +24,7 @@ window.onload = function() {
   function sendQuery(query) {
     if (!query) return
     $.ajax({
-      url: "http://glocal.research.yahoo.com/geo-location/rest-api/rest.php",
+      url: "http://localhost/geo_proxy.php",
       data: {query: (encodeURI(query))},
       success: function(data, status, req) {
         console.log(data)
