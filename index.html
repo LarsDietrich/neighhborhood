@@ -3,7 +3,9 @@
 <head>
   <meta charset=utf-8>
   <title>Neighborhood Map</title>
+<!--
   <link href='http://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
+-->
   <link rel="stylesheet" href="stylesheets/css/style.css">
 </head>
 <body>
@@ -18,9 +20,18 @@
   </footer>
 </div>
 
+<div id="lookup">
+  <form id="js-lookup">
+      <input type=search placeholder="Location" size=40 id=query required>
+  </form>
+</div>
+
+
   <script src="js/libs/jquery-1.7.1.min.js"><\/script>
   <script src="http://maps.stamen.com/js/tile.stamen.js"></script>
   <script src="js/libs/modestmaps.min.js"></script>
+  <!-- Do the lookup via Yahoo, which requires a proxy -->
+  <script src="js/geo_proxy.js"></script>
   <script src="js/script.js"></script>
 </body>
 </html>
