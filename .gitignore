@@ -40,6 +40,8 @@ publish
 build/buildinfo.properties
 build/config/buildinfo.properties
 
+# Minified by CodeKit
+*-ck.js
 
 # Other temp files
 markerclip.html

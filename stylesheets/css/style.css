@@ -18,11 +18,27 @@
   height: 270px;
   width: 270px;
 }
+header {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 2ex;
+}
+table {
+  border: 1px solid black;
+  margin-top: 2ex;
+}
+th {
+  font-style: bold;
+  background-color: black;
+  color: white;
+  text-align: center;
+}
+tbody tr:nth-of-type(2n) {
+  background-color: #EEE;
+}
 .city_name {
   position: relative;
   left: 15px;
   font-size: 200%;
-  font-family: 'Permanent Marker', cursive;
 }
 .credits {
   margin: 1pt 6pt;

@@ -5,28 +5,98 @@ window.onload = function() {
   // Disable dragging and zooming support for now (keeps things simple)
   var map = new MM.Map("map", layer, new MM.Point(mapDiv.clientWidth, mapDiv.clientHeight), [])
 
-  // First location
-  setMap(37.31, -122.01, "Cupertino, CA")
-  addCanvasOverlay(map, mapDiv)
-  showCurrentLocation()
-  
-  var form = document.forms[0]
-  var queryElement = document.querySelector('#query')
-  
-  form.onsubmit = function() {
-    var query = queryElement.value
-    if (query) query = query.trim()
-    findLocation(query, setMap)
-    return false
-  }
-  
   /** Set the map location and title */
-  function setMap(latitude, longitude, title) {
+  function showLocation(latitude, longitude, title) {
     var zoom = 11.5
     map.setCenterZoom(new MM.Location(latitude, longitude), zoom)
     $("header.city_name").html(title)
   }
+
+  buildSearchTable(getSavedSearches()) // <=== Storage
+  // First location
+  showLocation(37.31, -122.01, "Cupertino, CA")
+  addCanvasOverlay(map, mapDiv) // <=== Canvas
+  showCurrentLocation() // <=== Geolocation
   
+  /* ============================================
+   * Forms
+   */
+  var form = document.forms[0]
+  
+  form.onsubmit = function() {
+    var queryElement = document.querySelector('#query')
+    var query = queryElement.value
+    if (query) query = query.trim()
+//    findLocation(query, showLocation)
+    findLocation(query, saveAndShow) // <=== Storage
+    return false
+  }
+
+  /* ============================================
+   * Storage
+   */
+   
+  function getSavedSearches() {
+    var json = localStorage['neighborhood']
+    var savedSearches
+    if (json) {
+      var obj = JSON.parse(json)
+      savedSearches = obj.searches || []
+    } else {
+      savedSearches = []
+    }
+    return savedSearches
+  }
+  
+  function saveSearches(searchArray) {
+    if (!searchArray) {
+      localStorage.removeItem('neighborhood')
+    } else {
+      // Same as localStorage['neighborhood'] = ...
+      var obj = {searches: (searchArray) }
+      var json = JSON.stringify(obj)
+      localStorage.setItem('neighborhood', json)
+    }
+  }
+  
+  /** Save the search results then show on the map */
+  function saveAndShow(latitude, longitude, title) {
+    var searches = getSavedSearches()
+    var lcTitle = title.toLowerCase()
+    if (!searches.some(function(item) { return item.query.toLowerCase() === lcTitle })) {
+      // Hasn't been saved yet
+      searches.push({query:(title), latitude:(latitude), longitude:(longitude)})
+      searches.sort(function (a,b) { return a.query < b.query })
+      saveSearches(searches)
+      buildSearchTable(searches)
+    }
+    showLocation(latitude, longitude, title)
+  }
+
+  function buildSearchTable(searches) {
+    // Take advantage of jQuery here
+    if (!searches || searches.length === 0) {
+      $("#searches").html("<p>No saved searches</p>")
+    } else {
+      var table = $("<table><thead><tr><th>Saved searches</th></tr></thead></table>")
+      $("#searches").empty().append(table)
+      var tbody = $("<tbody />").appendTo(table)
+      searches.forEach(function(search) {
+        // {query:"...", latitude:..., longitude:...} ==> <tr><td><a latitude="..." longitude="...">query</a></td></tr>
+        var a = $("<a />").attr("latitude", search.latitude).attr("longitude", search.longitude).text(search.query)
+        tbody.append($("<tr />").append($("<td />").append(a)))
+      })
+      var handleClick = function (event) { 
+        var element = $(event.target)
+        showLocation(element.attr("latitude"), element.attr("longitude"), element.text()) 
+      }
+      tbody.on('click', 'a', handleClick) 
+    }
+  }
+  
+  /* ============================================
+   * Canvas
+   */
   function addCanvasOverlay(map, mapDiv) {
     var canvas = document.createElement('canvas')
     canvas.width = mapDiv.clientWidth
@@ -56,11 +126,15 @@ window.onload = function() {
     }
   }
 
+  /* ============================================
+   * Geolocation
+   */
+ 
   function showCurrentLocation() {
     // Now look for our current position
     if (navigator.geolocation) {
       var successHandler = function(position) {
-        setMap(position.coords.latitude, position.coords.longitude, "Your location")
+        showLocation(position.coords.latitude, position.coords.longitude, "Your location")
       }
       var errorHandler = function(error) {
         console.log(error.message)
@@ -71,6 +145,8 @@ window.onload = function() {
 
 } // window.onload
 
+/*
 window.onerror = function() {
   console.log('error');
 }
+*/

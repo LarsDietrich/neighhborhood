@@ -32,11 +32,32 @@
   width: @mapHeight;
 }
 
+header {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 2ex;
+}
+
+table {
+  border: 1px solid black;
+  margin-top: 2ex;
+}
+
+th {
+  font-style: bold;
+  background-color: black;
+  color: white;
+  text-align: center;
+}
+
+tbody tr:nth-of-type(2n) {
+  background-color: #EEE;
+}
+
+
 .city_name {
   position: relative;
   left: @mapMargin;
   font-size: 200%;
-  font-family: 'Permanent Marker', cursive;
 }
 
 .credits {
