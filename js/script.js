@@ -12,12 +12,13 @@ window.onload = function() {
     $("header.city_name").html(title)
   }
 
-  buildSearchTable(getSavedSearches()) // <=== Storage
+  buildTable(getQueries()) // <=== Storage
   // First location
   showLocation(37.31, -122.01, "Cupertino, CA")
-  addCanvasOverlay(map, mapDiv) // <=== Canvas
-  showCurrentLocation() // <=== Geolocation
-  
+//  addCanvasOverlay(map, mapDiv) // <=== Canvas
+//  showCurrentLocation() // <=== Geolocation
+
+
   /* ============================================
    * Forms
    */
@@ -27,8 +28,8 @@ window.onload = function() {
     var queryElement = document.querySelector('#query')
     var query = queryElement.value
     if (query) query = query.trim()
-//    findLocation(query, showLocation)
-    findLocation(query, saveAndShow) // <=== Storage
+    saveQuery(query)
+    findLocation(query, showLocation)
     return false
   }
 
@@ -36,63 +37,50 @@ window.onload = function() {
    * Storage
    */
    
-  function getSavedSearches() {
+   var queries = []
+   
+   function saveQuery(query) {
+     var queries = getQueries()
+     if (queries.indexOf(query) == -1) {
+       queries.push(query)
+       queries.sort()
+       buildTable(queries)
+       saveQueries(queries)
+     }
+   }
+   
+   function buildTable(queries) {
+     if (!queries) return
+     var data = {queries: (queries) }
+     var table = ich.template(data)
+     $("#searches").empty().append(table)
+     table.on('click', 'a', function(event) {
+       var element = $(event.target)
+       findLocation(element.text(), showLocation)
+     })
+   }
+   
+  function getQueries() {
     var json = localStorage['neighborhood']
-    var savedSearches
+    var queries = []
     if (json) {
       var obj = JSON.parse(json)
-      savedSearches = obj.searches || []
-    } else {
-      savedSearches = []
+      queries = obj.queries || []
     }
-    return savedSearches
+    return queries
   }
   
-  function saveSearches(searchArray) {
-    if (!searchArray) {
+  function saveQueries(queries) {
+    if (!queries) {
       localStorage.removeItem('neighborhood')
     } else {
-      // Same as localStorage['neighborhood'] = ...
-      var obj = {searches: (searchArray) }
+      var obj = {queries: (queries) }
       var json = JSON.stringify(obj)
+      // Same as localStorage['neighborhood'] = ...
       localStorage.setItem('neighborhood', json)
     }
   }
   
-  /** Save the search results then show on the map */
-  function saveAndShow(latitude, longitude, title) {
-    var searches = getSavedSearches()
-    var lcTitle = title.toLowerCase()
-    if (!searches.some(function(item) { return item.query.toLowerCase() === lcTitle })) {
-      // Hasn't been saved yet
-      searches.push({query:(title), latitude:(latitude), longitude:(longitude)})
-      searches.sort(function (a,b) { return a.query < b.query })
-      saveSearches(searches)
-      buildSearchTable(searches)
-    }
-    showLocation(latitude, longitude, title)
-  }
-
-  function buildSearchTable(searches) {
-    // Take advantage of jQuery here
-    if (!searches || searches.length === 0) {
-      $("#searches").html("<p>No saved searches</p>")
-    } else {
-      var table = $("<table><thead><tr><th>Saved searches</th></tr></thead></table>")
-      $("#searches").empty().append(table)
-      var tbody = $("<tbody />").appendTo(table)
-      searches.forEach(function(search) {
-        // {query:"...", latitude:..., longitude:...} ==> <tr><td><a latitude="..." longitude="...">query</a></td></tr>
-        var a = $("<a />").attr("latitude", search.latitude).attr("longitude", search.longitude).text(search.query)
-        tbody.append($("<tr />").append($("<td />").append(a)))
-      })
-      var handleClick = function (event) { 
-        var element = $(event.target)
-        showLocation(element.attr("latitude"), element.attr("longitude"), element.text()) 
-      }
-      tbody.on('click', 'a', handleClick) 
-    }
-  }
   
   /* ============================================
    * Canvas
