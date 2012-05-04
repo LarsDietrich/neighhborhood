@@ -14,9 +14,9 @@ window.onload = function() {
 
   buildTable(getQueries()) // <=== Storage
   // First location
-  showLocation(37.31, -122.01, "Cupertino, CA")
-//  addCanvasOverlay(map, mapDiv) // <=== Canvas
-//  showCurrentLocation() // <=== Geolocation
+//  showLocation(37.31, -122.01, "Cupertino, CA")
+  addCanvasOverlay(map, mapDiv) // <=== Canvas
+  showCurrentLocation() // <=== Geolocation
 
 
   /* ============================================
