@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang=en> 
+<head>
+  <meta charset=utf-8>
+  <title>Neighborhood Map</title>
+<!--
+  <link href='http://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
+-->
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+<div id="map_wrapper">
+    <header class="city_name">
+      Cupertino, CA 
+    </header>
+    <div id="map" height=200px width=300px></div>
+</div>
+<footer class="credits">
+  Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>.<br>Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.
+</footer>
+
+<div id="lookup">
+  <header>
+    Search
+  </header>
+  <form id="js-lookup">
+      <input type=search placeholder="Location" size=40 id=query required>
+  </form>
+  <div id="searches">
+    <!-- Example table -->
+    <table>
+      <thead>
+       <tr><th>Saved searches</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><a>Sample</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Saved search table templates  -->
+<script id="template" type="text/html">
+<table>
+  <thead>
+   <tr><th>Saved searches</th></tr>
+  </thead>
+  <tbody>
+    {{#queries}}
+    <tr><td><a>{{.}}</a></td></tr>
+    {{/queries}}
+  </tbody>
+</table>
+</script>
+
+  <script src="js/libs/jquery-1.7.2.min.js"></script>
+  <script src="js/libs/ICanHaz.min.js"></script>
+  <script src="http://maps.stamen.com/js/tile.stamen.js"></script>
+  <script src="js/libs/modestmaps.min.js"></script>
+  <script src="js/geo_CORS.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

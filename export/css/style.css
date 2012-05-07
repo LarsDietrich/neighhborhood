@@ -1,0 +1,55 @@
+/* ==|== primary styles =====================================================
+   Author: Richard Clark, for the Intel AppUp HTML5 screencasts
+   ========================================================================== */
+#map_wrapper {
+  position: absolute
+  top: 0px;
+  left: 0px;
+  width: 300px;
+  height: 330px;
+  border: 1px solid black;
+  box-shadow: 2px 2px 16px #888;
+  -webkit-transform: rotate(-1deg);
+}
+#map {
+  position: absolute;
+  top: 45px;
+  left: 15px;
+  height: 270px;
+  width: 270px;
+}
+header {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 2ex;
+}
+table {
+  border: 1px solid black;
+  margin-top: 2ex;
+}
+th {
+  font-style: bold;
+  background-color: black;
+  color: white;
+  text-align: center;
+}
+tbody tr:nth-of-type(2n) {
+  background-color: #EEE;
+}
+.city_name {
+  position: relative;
+  left: 15px;
+  font-size: 200%;
+}
+.credits {
+  margin: 1pt 6pt;
+  font-size: 75%;
+}
+#lookup {
+  position: absolute;
+  left: 315px;
+  top: 0px;
+  margin: 0px 15px;
+}
+#lookup ul {
+  list-style: none;
+}
